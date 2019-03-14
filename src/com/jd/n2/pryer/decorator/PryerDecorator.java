@@ -24,50 +24,30 @@ import org.jetbrains.annotations.NotNull;
  * @version 1.0
  * @date 2019/3/4 22:26
  */
-public class PryerDecorator implements ProjectViewNodeDecorator, VirtualFileListener, PsiTreeChangeListener {
+public class PryerDecorator implements ProjectViewNodeDecorator {
 
     /** 显示注释内容的最大长度 **/
     public static final int COMMENT_MAX_LENGTH = 20;
+    /** 要显示的标签名称 **/
+    public static final String TAG_NAMES = "description";
 
-    private PresentationData data;
-
-     /**
-      * 构造函数
-      * @Author maenfang1
-      * @Date 2019/3/14 21:46
-      * @Param
-      * @return
-      */
-    public PryerDecorator(){
-        Project project = ProjectManager.getInstance().getDefaultProject();
-        PsiManager.getInstance(project).addPsiTreeChangeListener(this);
-    }
+    /** 要读取的标签的名称 **/
+    private String[] tagNames;
 
     @Override
     public void decorate(ProjectViewNode node, PresentationData data) {
-        final Object value = node.getValue();
-        PsiElement element = null;
-        if (value instanceof PsiElement) {
-            element = (PsiElement)value;
-        } else if (value instanceof SmartPsiElementPointer) {
-            element = ((SmartPsiElementPointer)value).getElement();
-        } else if (value instanceof PackageElement) {
-            PackageElement packageElement = (PackageElement)value;
-            final String coverageString = packageElement.getPackage().getName();
-            data.setLocationString(coverageString);
-        }
-
-        if (element instanceof PsiClass) {
-            PsiClass psiClass = (PsiClass) element;
+        Object value = node.getValue();
+        if (value instanceof PsiClass) {
+            PsiClass psiClass = (PsiClass) value;
             PsiDocComment docComment = psiClass.getDocComment();
             if (docComment != null) {
                 PsiDocTag tag = findTag(docComment);
-                if (tag != null) {
+                if (tag != null) { // 读取tag标签的注释内容
                     PsiDocTagValue tagValue = tag.getValueElement();
                     if (tagValue != null) {
                         setLocationString(data, tagValue.getText());
                     }
-                } else {
+                } else { // 如果没有找到tag，直接读取第一行注释内容
                     PsiElement[] elements = docComment.getDescriptionElements();
                     for(PsiElement e : elements){
                         String comment = e.getText().trim().replace("\n", "");
@@ -106,129 +86,15 @@ public class PryerDecorator implements ProjectViewNodeDecorator, VirtualFileList
      * @return
      */
     private PsiDocTag findTag(PsiDocComment docComment){
-        return docComment.findTagByName("description");
-    }
-
-    @Override
-    public void propertyChanged(@NotNull VirtualFilePropertyEvent event) {
-        System.out.println("propertyChanged: " + event.getPropertyName());
-        System.out.println("propertyChanged: " + event.getFileName());
-        System.out.println("propertyChanged: " + event.getOldValue());
-        System.out.println("propertyChanged: " + event.getNewValue());
-    }
-
-
-    @Override
-    public void beforeContentsChange(@NotNull VirtualFileEvent event) {
-        System.out.println("beforeContentsChange: " + event.getFileName());
-    }
-
-    @Override
-    public void contentsChanged(@NotNull VirtualFileEvent event) {
-        System.out.println("contentsChanged: " + event.getFileName());
-    }
-
-    @Override
-    public void fileCreated(@NotNull VirtualFileEvent event) {
-        System.out.println("fileCreated: " + event.getFileName());
-    }
-
-    @Override
-    public void fileDeleted(@NotNull VirtualFileEvent event) {
-        System.out.println("fileDeleted: " + event.getFileName());
-    }
-
-    @Override
-    public void fileMoved(@NotNull VirtualFileMoveEvent event) {
-        System.out.println("fileMoved: " + event.getFileName());
-    }
-
-    @Override
-    public void fileCopied(@NotNull VirtualFileCopyEvent event) {
-        System.out.println("fileCopied: " + event.getFileName());
-
-    }
-
-    @Override
-    public void beforePropertyChange(@NotNull VirtualFilePropertyEvent event) {
-        System.out.println("beforePropertyChange: " + event.getPropertyName());
-        System.out.println("beforePropertyChange: " + event.getFileName());
-        System.out.println("beforePropertyChange: " + event.getOldValue());
-        System.out.println("beforePropertyChange: " + event.getNewValue());
-    }
-
-    @Override
-    public void beforeFileDeletion(@NotNull VirtualFileEvent event) {
-        System.out.println("beforeFileDeletion: " + event.getFileName());
-    }
-
-    @Override
-    public void beforeFileMovement(@NotNull VirtualFileMoveEvent event) {
-        System.out.println("beforeFileMovement: " + event.getFileName());
-    }
-
-
-
-    @Override
-    public void beforeChildAddition(@NotNull PsiTreeChangeEvent event) {
-        System.out.println("beforeChildAddition: " + event.getPropertyName());
-        PsiElement element = event.getElement();
-        System.out.println("element.getText() in beforeChildAddition: " + element.getText());
-        System.out.println("element.toString() in beforeChildAddition: " + element.toString());
-    }
-
-    @Override
-    public void beforeChildRemoval(@NotNull PsiTreeChangeEvent event) {
-
-    }
-
-    @Override
-    public void beforeChildReplacement(@NotNull PsiTreeChangeEvent event) {
-
-    }
-
-    @Override
-    public void beforeChildMovement(@NotNull PsiTreeChangeEvent event) {
-
-    }
-
-    @Override
-    public void beforeChildrenChange(@NotNull PsiTreeChangeEvent event) {
-
-    }
-
-    @Override
-    public void beforePropertyChange(@NotNull PsiTreeChangeEvent event) {
-
-    }
-
-    @Override
-    public void childAdded(@NotNull PsiTreeChangeEvent event) {
-
-    }
-
-    @Override
-    public void childRemoved(@NotNull PsiTreeChangeEvent event) {
-
-    }
-
-    @Override
-    public void childReplaced(@NotNull PsiTreeChangeEvent event) {
-
-    }
-
-    @Override
-    public void childrenChanged(@NotNull PsiTreeChangeEvent event) {
-
-    }
-
-    @Override
-    public void childMoved(@NotNull PsiTreeChangeEvent event) {
-
-    }
-
-    @Override
-    public void propertyChanged(@NotNull PsiTreeChangeEvent event) {
-
+        if(tagNames == null){
+            tagNames = TAG_NAMES.split(",");
+        }
+        for(String tagName : tagNames){
+            PsiDocTag tag = docComment.findTagByName(tagName);
+            if(tag != null){
+                return tag;
+            }
+        }
+        return null;
     }
 }
