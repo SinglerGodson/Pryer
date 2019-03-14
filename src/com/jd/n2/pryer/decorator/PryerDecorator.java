@@ -26,13 +26,12 @@ import org.jetbrains.annotations.NotNull;
  */
 public class PryerDecorator implements ProjectViewNodeDecorator {
 
+    /** 要读取的标签的名称 **/
+    private String[] tagNames;
     /** 显示注释内容的最大长度 **/
     public static final int COMMENT_MAX_LENGTH = 20;
     /** 要显示的标签名称 **/
     public static final String TAG_NAMES = "description";
-
-    /** 要读取的标签的名称 **/
-    private String[] tagNames;
 
     @Override
     public void decorate(ProjectViewNode node, PresentationData data) {
