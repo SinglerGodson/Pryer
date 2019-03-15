@@ -11,10 +11,14 @@
 
   <!-- 插件的描述 -->
   <description>
-      在IDEA Project栏，java 文件后显示java文件类级注释。
-      默认读取 @description （忽略大小写）后的内容。
-      若无 @description, 则读取第一个非空行的内容。
-      最多显示20个汉字。
+    <![CDATA[
+      1、在IDEA Project栏，文件名称后显示文件以及Java类的注释。<br/>
+      2、Java类文件，默认读取 @description 注释标签后的内容。
+        若无 @description, 则读取第一个非空行的内容。<br/>
+      3、其他类型文件，支持常见注释标签（&lt;!--  -->、/** **/、//、#）标记的注释。
+        注释内容需从文件首行开始。只获取第一个非空行的内容。<br/>
+      4、最多显示20个汉字。
+    ]]>
   </description>
 
   <!-- 插件版本变更信息，支持HTML标签； 将展示在 settings | Plugins 对话框和插件仓库的Web页面 -->
