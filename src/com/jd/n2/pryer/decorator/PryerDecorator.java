@@ -30,7 +30,7 @@ public class PryerDecorator implements ProjectViewNodeDecorator {
     /** 要显示的标签名称 **/
     public static final String TAG_NAMES = "description";
     /** 常用注释标记 **/
-    private static final String[] COMMENT_TAGS = new String[]{ "<!--", "/**", "#"};
+    private static final String[] COMMENT_TAGS = new String[]{ "<!--", "/**", "//", "#"};
 
     @Override
     public void decorate(ProjectViewNode node, PresentationData data) {
