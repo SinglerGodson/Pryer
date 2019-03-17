@@ -29,8 +29,9 @@ public class PryerDecorator implements ProjectViewNodeDecorator {
     public static final int COMMENT_MAX_LENGTH = 20;
     /** 要显示的标签名称 **/
     public static final String TAG_NAMES = "description";
-    /** 常用注释标记 **/
-    private static final String[] COMMENT_TAGS = new String[]{ "<!--", "/**", "//", "#"};
+    /** xml文件的扩展名 **/
+    public static final String FILE_EXTENSION_XML = "xml";
+
 
     @Override
     public void decorate(ProjectViewNode node, PresentationData data) {
@@ -39,50 +40,11 @@ public class PryerDecorator implements ProjectViewNodeDecorator {
         if (value instanceof PsiClass) { // 若是javaClass文件
             PsiClass psiClass = (PsiClass) value;
             comment = getClassComment(psiClass);
-        } else if(value instanceof PsiFile){ // 若是其他类型文件
+        } else if(value instanceof PsiFile) { // 若是其他类型文件
             PsiFile psiFile = (PsiFile) value;
             comment = getFileComment(psiFile);
         }
-        if(StringUtils.isNotEmpty(comment)){
-            setLocationString(data, comment);
-        }
-    }
-
-    @Override
-    public void decorate(PackageDependenciesNode node, ColoredTreeCellRenderer renderer) {
-    }
-
-    /**
-     * 在文件后追加注释
-     * @param data
-     * @param comment
-     */
-    private void setLocationString(PresentationData data, String comment){
-        if(!StringUtil.isEmpty(comment)){
-            if(comment.length() > COMMENT_MAX_LENGTH) {
-                comment = comment.substring(0, COMMENT_MAX_LENGTH) + " ...";
-            }
-            data.setLocationString(comment);
-        }
-    }
-
-
-    /**
-     * 找到可用的tag
-     * @param docComment
-     * @return
-     */
-    private PsiDocTag findTag(PsiDocComment docComment){
-        if(tagNames == null){
-            tagNames = TAG_NAMES.split(",");
-        }
-        for(String tagName : tagNames){
-            PsiDocTag tag = docComment.findTagByName(tagName);
-            if(tag != null){
-                return tag;
-            }
-        }
-        return null;
+        setLocationString(data, comment);
     }
 
 
@@ -115,48 +77,83 @@ public class PryerDecorator implements ProjectViewNodeDecorator {
         return null;
     }
 
+    /**
+     * 找到可用的tag
+     * @param docComment
+     * @return
+     */
+    private PsiDocTag findTag(PsiDocComment docComment){
+        if(tagNames == null){
+            tagNames = TAG_NAMES.split(",");
+        }
+        for(String tagName : tagNames){
+            PsiDocTag tag = docComment.findTagByName(tagName);
+            if(tag != null){
+                return tag;
+            }
+        }
+        return null;
+    }
+
 
     /**
      * 获取其他类型文件的注释内容
+     * 目前只支持xml文件 与properties文件。
      * @author maenfang1
      * @date 2019/3/15 22:59
-     * @param
-     * @return
      */
     private String getFileComment(PsiFile psiFile){
-        for(String tag : COMMENT_TAGS){
-            String comment = getComment(tag, psiFile.getText());
-            if(StringUtils.isNotEmpty(comment)){
-                return comment;
+        if(StringUtil.isNotEmpty(psiFile.getText())){
+            int lineNum = 0;
+            String comment = "";
+            String[] lines = psiFile.getText().trim().split("\n");
+            String fileType = psiFile.getVirtualFile().getExtension();
+            CommentTagEnum commentTagEnum = CommentTagEnum.Properties;
+            // 如果是xml文件，则注释要从第二行开始，即下标为1。
+            if(FILE_EXTENSION_XML.equals(fileType)){
+                lineNum = 1;
+                commentTagEnum = CommentTagEnum.XmlHtml;
+            }
+            // 获取第一行不为空的内容
+            while (StringUtil.isEmpty(comment)) {
+                comment = lines[lineNum++].trim();
+            }
+            if (comment.startsWith(commentTagEnum.getStart())) { // 若该行为注释内容
+                comment = comment
+                        .replace(commentTagEnum.getEnd(), "")
+                        .replace(commentTagEnum.getStart(), "")
+                        .trim();
+                // 注释内容在一行之内。
+                if(StringUtil.isNotEmpty(comment)){
+                    return comment;
+                } else { // 注释有多行
+                    // 获取第一行不为空的内容
+                    do {
+                        comment = lines[lineNum++].trim();
+                    } while (StringUtil.isEmpty(comment));
+                    return comment;
+                }
             }
         }
         return null;
     }
 
-     /**
-      * 获取 <!-- 注释 与 /** 注释 的内容
-      * @author maenfang1
-      * @date 2019/3/15 22:45
-      * @param
-      * @return
-      */
-    private String getComment(String commentTag, String text){
-        // 如果不是以指定注释符开始，则不显示注释内容。
-        if(!text.startsWith(commentTag)){
-            return null;
-        }
-        String[] lines = text.split("\n");
-        for(String line : lines){
-            if(line.trim().startsWith(commentTag)){
-                line = line.replace(commentTag, "");
+    /**
+     * 在文件后追加注释
+     * @param data
+     * @param comment
+     */
+    private void setLocationString(PresentationData data, String comment){
+        if(!StringUtil.isEmpty(comment)){
+            if(comment.length() > COMMENT_MAX_LENGTH) {
+                comment = comment.substring(0, COMMENT_MAX_LENGTH) + " ...";
             }
-            if(!StringUtils.isEmpty(line)){
-                return line
-                        .replace("*/", "")
-                        .replace("*", "")
-                        .replace("-->", "").trim();
-            }
+            data.setLocationString(comment);
         }
-        return null;
     }
+
+    @Override
+    public void decorate(PackageDependenciesNode node, ColoredTreeCellRenderer renderer) {
+    }
+
 }
