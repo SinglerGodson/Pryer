@@ -1,4 +1,4 @@
-package com.jd.n2.pryer.decorator;
+package com.jd.godson.pryer.decorator;
 
 import com.intellij.ide.projectView.PresentationData;
 import com.intellij.ide.projectView.ProjectViewNode;
@@ -12,7 +12,6 @@ import com.intellij.psi.javadoc.PsiDocComment;
 import com.intellij.psi.javadoc.PsiDocTag;
 import com.intellij.psi.javadoc.PsiDocTagValue;
 import com.intellij.ui.ColoredTreeCellRenderer;
-import org.apache.commons.lang3.StringUtils;
 
 /**
  * 类注释追加 装饰器
@@ -52,8 +51,6 @@ public class PryerDecorator implements ProjectViewNodeDecorator {
       * 获取java类文件注释
       * @author maenfang1
       * @date 2019/3/15 21:31
-      * @param
-      * @return
       */
     private String getClassComment(PsiClass psiClass){
         PsiDocComment docComment = psiClass.getDocComment();

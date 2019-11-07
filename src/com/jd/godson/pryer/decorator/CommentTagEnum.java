@@ -1,4 +1,4 @@
-package com.jd.n2.pryer.decorator;
+package com.jd.godson.pryer.decorator;
 
 /**
  * 注释标签枚举类

@@ -1,7 +1,7 @@
 <idea-plugin>
   <!-- 插件唯一id，不能和其他插件项目重复，所以推荐使用com.xxx.xxx的格式
        插件不同版本之间不能更改，若没有指定，则与插件名称相同 -->
-  <id>com.jd.n2.pryer</id>
+  <id>com.jd.godson.pryer</id>
   <!-- 插件名称，别人在官方插件库搜索你的插件时使用的名称 -->
   <name>Pryer</name>
   <!-- 插件版本 -->
@@ -67,7 +67,7 @@
   <extensions defaultExtensionNs="com.intellij">
     <!-- Add your extensions here -->
     <projectViewNodeDecorator
-            implementation="com.jd.n2.pryer.decorator.PryerDecorator"/>
+            implementation="com.jd.godson.pryer.decorator.PryerDecorator"/>
   </extensions>
 
   <actions>
