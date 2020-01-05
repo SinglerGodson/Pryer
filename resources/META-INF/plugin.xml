@@ -12,10 +12,10 @@
   <!-- 插件的描述 -->
   <description>
     <![CDATA[
-      1、在IDEA Project栏，文件名称后显示文件以及Java类的注释。<br/>
+      1、在IDEA Project栏，文件名称后显示Java类注释的内容，以及其他类型文件的第一段注释的第一行注释内容。<br/>
       2、支持自定义注释标签名称与注释标签。<br/>
       3、支持自定义文件名称后显示注释的字数。<br/>
-      4、配置面板路径 File -> Settings -> Pryer Settings。
+      4、配置面板路径 File -> Settings -> Other Settings -> Pryer Settings。
     ]]>
   </description>
 
