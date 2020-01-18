@@ -7,22 +7,22 @@
   <!-- 插件版本 -->
   <version>2.0</version>
   <!-- 供应商主页和email-->
-  <vendor email="Godson@126.com" url="http://www.jd.com">宅小男</vendor>
+  <vendor email="Godson@126.com" url="http://git.jd.com/maenfang1/Pryer">宅小男</vendor>
 
   <!-- 插件的描述 -->
   <description>
     <![CDATA[
-      1、在IDEA Project栏，文件名称后显示Java类注释的内容，以及其他类型文件的第一段注释的第一行注释内容。<br/>
-      2、支持自定义注释标签名称与注释标签。<br/>
-      3、支持自定义文件名称后显示注释的字数。<br/>
-      4、配置面板路径 File -> Settings -> Other Settings -> Pryer Settings。
+      1、Displays the comment text for the default or specified comment label after the file name in the IDEA Project panel.<br/>
+      2、Support for custom comment labels.<br/>
+      3、Supports custom display of annotation length.<br/>
+      4、Configuration panel path: File -> Settings -> Other Settings -> Pryer Settings。
     ]]>
   </description>
 
   <!-- 插件版本变更信息，支持HTML标签； 将展示在 settings | Plugins 对话框和插件仓库的Web页面 -->
   <change-notes>
     <![CDATA[
-      添加了自定义配置项 配置面板Pryer Settings。
+      The configuration panel was added.You can customize the comment label and display the length of the comment
     ]]>
   </change-notes>
 
