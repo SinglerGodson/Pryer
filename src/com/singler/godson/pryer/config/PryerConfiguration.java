@@ -1,4 +1,4 @@
-package com.jd.godson.pryer.config;
+package com.singler.godson.pryer.config;
 
 import com.intellij.ide.util.PropertiesComponent;
 import com.intellij.openapi.options.Configurable;
@@ -21,7 +21,7 @@ public class PryerConfiguration implements SearchableConfigurable, Configurable.
 
     private ConfigPanel configPanel;
 
-    public static final String PROPS_PREFIX = "com.jd.godson.pryer.";
+    public static final String PROPS_PREFIX = "com.singler.godson.pryer.";
 
     public static final Integer MAX_LENGTH_DEFAULT = 10;
     public static final String MAX_LENGTH_PROPS = PROPS_PREFIX + "maxLength";

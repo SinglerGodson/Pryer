@@ -1,4 +1,4 @@
-package com.jd.godson.pryer.config;
+package com.singler.godson.pryer.config;
 
 import com.intellij.ui.components.JBScrollPane;
 

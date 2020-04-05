@@ -1,13 +1,13 @@
 <idea-plugin>
   <!-- 插件唯一id，不能和其他插件项目重复，所以推荐使用com.xxx.xxx的格式
        插件不同版本之间不能更改，若没有指定，则与插件名称相同 -->
-  <id>com.jd.godson.pryer</id>
+  <id>com.singler.godson.pryer</id>
   <!-- 插件名称，别人在官方插件库搜索你的插件时使用的名称 -->
   <name>Pryer</name>
   <!-- 插件版本 -->
   <version>2.0</version>
   <!-- 供应商主页和email-->
-  <vendor email="Godson@126.com" url="http://git.jd.com/maenfang1/Pryer">宅小男</vendor>
+  <vendor email="Godson@126.com" url="https://github.com/SinglerGodson/Pryer">宅小男</vendor>
 
   <!-- 插件的描述 -->
   <description>
@@ -68,8 +68,8 @@
   <!-- 声明该插件对IDEA core或其他插件的扩展 -->
   <extensions defaultExtensionNs="com.intellij">
     <!-- Add your extensions here -->
-    <projectConfigurable instance="com.jd.godson.pryer.config.PryerConfiguration"/>
-    <projectViewNodeDecorator implementation="com.jd.godson.pryer.decorator.PryerDecorator"/>
+    <projectConfigurable instance="com.singler.godson.pryer.config.PryerConfiguration"/>
+    <projectViewNodeDecorator implementation="com.singler.godson.pryer.decorator.PryerDecorator"/>
   </extensions>
 
   <actions/>

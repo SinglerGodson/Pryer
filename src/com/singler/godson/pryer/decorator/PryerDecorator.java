@@ -1,4 +1,4 @@
-package com.jd.godson.pryer.decorator;
+package com.singler.godson.pryer.decorator;
 
 import com.intellij.ide.projectView.PresentationData;
 import com.intellij.ide.projectView.ProjectViewNode;
@@ -11,7 +11,7 @@ import com.intellij.psi.PsiFile;
 import com.intellij.psi.javadoc.PsiDocComment;
 import com.intellij.psi.javadoc.PsiDocTag;
 import com.intellij.ui.ColoredTreeCellRenderer;
-import com.jd.godson.pryer.config.PryerConfiguration;
+import com.singler.godson.pryer.config.PryerConfiguration;
 
 /**
  * 类注释追加 装饰器
