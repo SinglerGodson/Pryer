@@ -28,7 +28,7 @@
 
   <!-- 插件兼容IDEA的最大和最小 build 号，两个属性可以任选一个或者同时使用
        官网详细介绍：http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html-->
-  <idea-version since-build="145.0"/>
+  <idea-version since-build="172.0"/>
 
   <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
        on how to target different products -->
